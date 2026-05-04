@@ -33,3 +33,7 @@ def flight(request, flight_id):
     
     except Flight.DoesNotExist:
         return HttpResponse(f"Flight id {flight_id} does not exists in our system yet!")
+    
+
+def book(request, flight_id):
+    pass 
