@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Flight {{ flight.id }} details</title>
+    </head>
+    <body>
+        <h1>Flight {{flight.id}} details :--- </h1>
+        <li>Origin:- {{flight.origin.city}} ({{flight.origin.code}})</li>
+        <li>Destination:- {{flight.destination.city}} ({{flight.destination.code}})</li>
+        <li>Duration:- {{flight.duration}}</li>
+
+        <hr>
+
+        <h2>List of passengers on this Flight :====</h2>
+        {% for passenger in passengers %}
+            <li>{{passenger.first_name}} {{passenger.last_name}}</li>
+        {% endfor %}
+
+        <br>
+        <hr>
+        
+
+        <a href="{% url 'index' %}"> home page! </a>
+    </body>
+</html>
