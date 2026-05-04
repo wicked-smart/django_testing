@@ -17,6 +17,27 @@
 
         <br>
         <hr>
+        <h2>Book for {{ flight }}</h2>
+
+        <form action="{% url 'book' flight.id %}" method="post">
+            {% csrf_token %}
+
+            <label>Select passenger:</label>
+
+            <select name="passenger_id" required>
+                <option value="" disabled selected>Select passenger</option>
+
+                {% for passenger in non_passengers %}
+                    <option value="{{ passenger.id }}">
+                        {{ passenger.first_name }} {{ passenger.last_name }}
+                    </option>
+                {% empty %}
+                    <option disabled>No passengers available</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Add Passenger</button>
+        </form>
         
 
         <a href="{% url 'index' %}"> home page! </a>

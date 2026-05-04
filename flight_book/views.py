@@ -1,5 +1,6 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
 from .models import *
 
@@ -21,8 +22,8 @@ def flight(request, flight_id):
         passengers = flight.passengers.all()
         non_passengers = Passenger.objects.exclude(flight=flight)
 
-        print(f"passengers :===> {passengers}")
-        print(f"non-passengers :==> {non_passengers}")
+        # print(f"passengers :===> {passengers}")
+        # print(f"non-passengers :==> {non_passengers}")
 
         return render(request, 'flight/flight.html', {
                 'flight': flight, 
@@ -36,4 +37,21 @@ def flight(request, flight_id):
     
 
 def book(request, flight_id):
-    pass 
+
+    if request.method == 'POST':
+        try:
+            pasngr_id  = int(request.POST.get('passenger_id', None))
+            passenger = Passenger.objects.get(id=pasngr_id)
+
+            flight = Flight.objects.get(id=flight_id)
+
+            #book passenger
+            flight.passengers.add(passenger)
+            flight.save()
+
+            return HttpResponseRedirect(reverse('flight', args=(flight_id,)))
+
+        
+        except Exception as e:
+            print(f"Exception occured during fligh booking :-- {e}")
+
